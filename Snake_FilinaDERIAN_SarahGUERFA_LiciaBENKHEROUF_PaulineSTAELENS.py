@@ -25,8 +25,8 @@ COLOR_QUADR = "black"
 COLOR_MUR = "black"
 COLOR_MUR_BORD = "green"
 COLOR_POMME = "red"
-COLOR_TETE_SNAKE = "SpringGreen4"
-COLOR_SNAKE = "SpringGreen2"
+COLOR_TETE_SNAKE = "Cyan3"
+COLOR_SNAKE = "Green2"
 
 #######################################
 # Variables globales
@@ -88,6 +88,7 @@ def position_depart() :
     tableau_snake[2][2] = 1
 
 def snake_grandit(x_queue, y_queue) :
+    """Fonction qui ajout un rond au bout du serpent pour le faire grandir"""
     global snake, tableau_snake, corp_snake
     tableau_snake[y_queue][x_queue] = 1
     corp_snake = canvas.create_oval((x_queue*COTE, y_queue*COTE), ((x_queue+1)*COTE, (y_queue+1)*COTE), fill=COLOR_SNAKE, outline=COLOR_SNAKE)
@@ -112,9 +113,12 @@ def move_snake(event=0) :
     canvas.itemconfigure(snake[0], fill=COLOR_SNAKE, outline=COLOR_SNAKE)
     snake.insert(0, snake[-1])
     del snake[-1]
-    # Gére la position de serpent dans le tableau_snake aprés deplacement
+    # Gére la position de serpent dans le tableau_snake aprés deplacement et gestion de l'autophagie
     x_tete = int(canvas.coords(corp_snake)[0] // COTE)
     y_tete = int(canvas.coords(corp_snake)[1] // COTE)
+    if tableau_snake[y_tete][x_tete] == 1 :
+        game_over()
+        return
     tableau_snake[y_tete][x_tete] = 1
     # Gestion entre le pomme et le serpent
     if x_tete == x_pomme and y_tete == y_pomme :
@@ -158,6 +162,24 @@ def move_droite(event) :
         direction[1] = +COTE
         direction[2] = 0
 
+def game_over(event=0) :
+    """Fonction qui affiche une Game Over quand le joueur perd et réinitialiser toutes les variable globals"""
+    global tableau_snake, snake, tete_snake, corp_snake, direction, pomme, ID_after
+    # Affiche le game over
+    canvas.create_image(500/2, 500/2, anchor='center', image=image_GO)
+    # Effacer le serpent et la pomme
+    canvas.delete(pomme)
+    for i in snake :
+        canvas.delete(i)
+    # Réinitialiser les variable global, A FAIRE : ajout des variable des future fonctions pour tout réinitialiser
+    tableau_snake = [[0] * COLONE for i in range(LIGNE)]
+    snake = []
+    tete_snake = 0
+    corp_snake = 0
+    direction = ["droite", +COTE, 0]
+    pomme = 0
+    ID_after = 0
+
 #######################################
 # Programme principale
 
@@ -167,6 +189,7 @@ racine.title("Snake")
 # Création des widgets
 
 canvas = tk.Canvas(racine, width=LARGEUR, height=HAUTEUR, bg="green")
+image_GO = tk.PhotoImage(file='gameover.png')
 
 quadrillage()
 ini_mur()
