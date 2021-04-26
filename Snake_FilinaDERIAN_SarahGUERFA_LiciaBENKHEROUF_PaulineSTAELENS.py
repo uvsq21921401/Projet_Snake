@@ -87,25 +87,43 @@ def position_depart() :
     snake.append(corp_snake)
     tableau_snake[2][2] = 1
 
+def snake_grandit(x_queue, y_queue) :
+    global snake, tableau_snake, corp_snake
+    tableau_snake[y_queue][x_queue] = 1
+    corp_snake = canvas.create_oval((x_queue*COTE, y_queue*COTE), ((x_queue+1)*COTE, (y_queue+1)*COTE), fill=COLOR_SNAKE, outline=COLOR_SNAKE)
+    snake.append(corp_snake)
+
+
 def move_snake(event=0) :
     """Fonction qui deplace le serpent dans une direction (près choisie dans d'autres fonction : move_haut/bas/gauche/bas) en prennant la queue du serpent pour qu'elle devienner sa nouvelle tête"""
-    global snake, direction, corp_snake, tableau_snake, COTE, ID_after
+    global snake, direction, corp_snake, tableau_snake, COTE, pomme, ID_after
     corp_snake = snake[-1]
     tete_snake = snake[0]
-    # Gére la position du serpent dans le tableau_snake avant deplacement
-    x = int(canvas.coords(corp_snake)[0] // COTE)
-    y = int(canvas.coords(corp_snake)[1] // COTE)
-    tableau_snake[y][x] = 0
+    # Récuper les coordonnée de la pomme
+    x_pomme = canvas.coords(pomme)[0] // COTE
+    y_pomme = canvas.coords(pomme)[1] // COTE
+    # Gére la position de serpent dans le tableau_snake avant deplacement
+    x_queue = int(canvas.coords(corp_snake)[0] // COTE)
+    y_queue = int(canvas.coords(corp_snake)[1] // COTE)
+    tableau_snake[y_queue][x_queue] = 0
     # Gére deplacement du serpent sur le canvas 
     canvas.coords(corp_snake, canvas.coords(tete_snake)[0] + direction[1], canvas.coords(tete_snake)[1] + direction[2], canvas.coords(tete_snake)[2]+ direction[1], canvas.coords(tete_snake)[3] + direction[2])
     canvas.itemconfigure(snake[-1], fill=COLOR_TETE_SNAKE, outline=COLOR_TETE_SNAKE)
     canvas.itemconfigure(snake[0], fill=COLOR_SNAKE, outline=COLOR_SNAKE)
     snake.insert(0, snake[-1])
     del snake[-1]
-    # Gére la position du serpent dans le tableau_snake aprés deplacement
-    x = int(canvas.coords(corp_snake)[0] // COTE)
-    y = int(canvas.coords(corp_snake)[1] // COTE)
-    tableau_snake[y][x] = 1
+    # Gére la position de serpent dans le tableau_snake aprés deplacement
+    x_tete = int(canvas.coords(corp_snake)[0] // COTE)
+    y_tete = int(canvas.coords(corp_snake)[1] // COTE)
+    tableau_snake[y_tete][x_tete] = 1
+    # Gestion entre le pomme et le serpent
+    if x_tete == x_pomme and y_tete == y_pomme :
+        # ===========================
+        # A FAIRE : Déplacer la pomme
+        # exemple : deplacer_pomme()
+        # ===========================
+        snake_grandit(x_queue, y_queue)
+    # Rappel la fonction move_snake
     ID_after = racine.after(300, move_snake, event)
 
 def move_haut(event) :
