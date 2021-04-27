@@ -12,7 +12,6 @@
 
 from tkinter import*
 
-
 # Programme Menu 
 
 # Fenêtre des différents niveaux
