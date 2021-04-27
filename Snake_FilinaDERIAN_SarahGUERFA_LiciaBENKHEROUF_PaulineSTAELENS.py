@@ -31,7 +31,15 @@ COLOR_SNAKE = "Green2"
 #######################################
 # Variables globales
 
-tableau_snake = [[0] * COLONE for i in range(LIGNE)]
+"""La variable globale tableau_snake de garder en mémoire quelle case est occupé par le serpent par la valeur 1"""
+tableau_snake = [[0] * COLONE for i in range(LIGNE)] 
+# ===========================
+# A VOIR : - on peut faire un tableau similaire pour les mur ?
+# - peut nous faciliter le deplacement de la pomme, 
+# exemple : si la pomme tombe sur une case avec la valeur 1 (serpent) alors elle ne peut pas aller sur cette case
+# - si on fait un tableau similaire pour les mur, on pourras faire la même pour que la pomme n'apparait pas sur un mur 
+# et aussi pour le serpent
+# ===========================
 
 snake = []
 tete_snake = 0
