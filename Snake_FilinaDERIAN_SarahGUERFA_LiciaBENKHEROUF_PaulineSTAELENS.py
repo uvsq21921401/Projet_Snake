@@ -11,6 +11,42 @@
 # Import des librairies
 
 import tkinter as tk
+from tkinter import*
+
+# Menu 
+def create1():
+    easy=Tk()
+    easy.geometry('800x400')
+    easy.mainloop()
+
+def create2():
+    intermediaire=Tk()
+    intermediaire.geometry('600x400')
+    intermediaire.mainloop()
+
+def create3():
+    hard=Tk()
+    hard.geometry('400x400')
+    hard.mainloop()
+
+root = Tk()
+root.geometry('589x400')
+root.configure(bg='#88e75f')
+
+btn = Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
+btn1 = Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
+btn2 = Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
+
+
+
+text = Label(root, text="Jeu Snake",  font=("brush script mt", 70),  bg = "#88e75f", fg = "#2f6d35")
+
+btn.place(x = 50, y = 300)
+btn1.place(x = 170, y = 300)
+btn2.place(x = 400, y = 300)
+text.place(x = 120, y = 100)
+root.mainloop()
+
 
 #######################################
 # Constantes (écrites en majuscule)
