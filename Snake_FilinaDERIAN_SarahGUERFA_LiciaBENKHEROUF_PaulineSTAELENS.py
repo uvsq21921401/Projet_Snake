@@ -10,7 +10,6 @@
 #######################################
 # Import des librairies
 
-import tkinter as tk
 from tkinter import*
 
 # Menu 
@@ -227,13 +226,13 @@ def game_over(event=0) :
 #######################################
 # Programme principale
 
-racine = tk.Tk()
+racine = Tk()
 racine.title("Snake")
 
 # Création des widgets
 
-canvas = tk.Canvas(racine, width=LARGEUR, height=HAUTEUR, bg="green")
-image_GO = tk.PhotoImage(file='gameover.png')
+canvas = Canvas(racine, width=LARGEUR, height=HAUTEUR, bg="green")
+image_GO = PhotoImage(file='gameover.png')
 
 quadrillage()
 ini_mur()
