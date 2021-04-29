@@ -251,9 +251,9 @@ canvas.grid()
 
 # Événements
 
-racine.bind("<KeyRelease-z>", move_haut)
-racine.bind("<KeyRelease-s>", move_bas)
-racine.bind("<KeyRelease-q>", move_gauche)
-racine.bind("<KeyRelease-d>", move_droite)
+racine.bind("<KeyPress-z>", move_haut)
+racine.bind("<KeyPress-s>", move_bas)
+racine.bind("<KeyPress-q>", move_gauche)
+racine.bind("<KeyPress-d>", move_droite)
 
 racine.mainloop()
