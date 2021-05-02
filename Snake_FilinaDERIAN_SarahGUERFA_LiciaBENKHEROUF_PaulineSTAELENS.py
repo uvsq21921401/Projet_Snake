@@ -10,38 +10,38 @@
 #######################################
 # Import des librairies
 
-from tkinter import*
+import tkinter as tk
 
 # Programme Menu 
 
 # Fenêtre des différents niveaux
 def create1():
-    easy=Tk()
+    easy=tk.Tk()
     easy.geometry('800x400')
     easy.mainloop()
 
 def create2():
-    intermediate=Tk()
+    intermediate=tk.Tk()
     intermediate.geometry('600x400')
     intermediate.mainloop()
 
 def create3():
-    difficult=Tk()
+    difficult=tk.Tk()
     difficult.geometry('400x400')
     difficult.mainloop()
 
 # Fenêtre du menu
-root = Tk()
+root = tk.Tk()
 root.geometry('589x400')
 root.configure(bg='#88e75f')
 
 # Bouton clic
-btn = Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
-btn1 = Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
-btn2 = Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
+btn = tk.Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
+btn1 = tk.Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
+btn2 = tk.Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
 
 
-text = Label(root, text="Jeu Snake",  font=("brush script mt", 70),  bg = "#88e75f", fg = "#2f6d35")
+text = tk.Label(root, text="Jeu Snake",  font=("brush script mt", 70),  bg = "#88e75f", fg = "#2f6d35")
 
 # Coordonnées des Boutons clic
 btn.place(x = 50, y = 300)
@@ -232,13 +232,13 @@ def game_over(event=0) :
 #######################################
 # Programme principale
 
-racine = Tk()
+racine = tk.Tk()
 racine.title("Snake")
 
 # Création des widgets
 
-canvas = Canvas(racine, width=LARGEUR, height=HAUTEUR, bg="green")
-image_GO = PhotoImage(file='gameover.png')
+canvas = tk.Canvas(racine, width=LARGEUR, height=HAUTEUR, bg="green")
+image_GO = tk.PhotoImage(file='gameover.png')
 
 quadrillage()
 ini_mur()
