@@ -80,6 +80,7 @@ def create1():
     easy.mainloop()
 
 def create2():
+    global canvas
     intermediate=tk.Tk()
     intermediate.geometry('600x400')
     intermediate.resizable(False, False)
@@ -102,6 +103,7 @@ def create2():
     intermediate.mainloop()
 
 def create3():
+    global canvas
     difficult=tk.Tk()
     difficult.geometry('400x400')
     difficult.resizable(False, False)
