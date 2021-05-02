@@ -23,7 +23,7 @@ COLOR_MUR_BORD = "green"
 COLOR_POMME = "red"
 COLOR_TETE_SNAKE = "Cyan3"
 COLOR_SNAKE = "Green2"
-
+COLOR_SCORE = 0xffff
 #######################################
 # Variables globales
 
@@ -278,3 +278,36 @@ def reinitialise_variableG() :
         pomme = 0
         ID_after = 0
         canvas = 0
+
+         # Score
+def AffichageScore():
+    display.setColor(COLOR_SCORE)
+    display.print(2, 2, game['score'])
+
+def UpdateScore(self):
+    self.score+=1
+    self.scoreDisplay['text']="Score : {}".format(self.score)
+    return
+
+def Scoreboard():
+    user = str(input("Entrer votre nom pour enregistrer votre score: "))
+    with open("scoreboard.csv", "a") as output:
+        output.write("\n"+user+","+str(score)+" pts")
+
+def top_dix():
+    top = []
+    all_scores = []
+
+    with open('scoreboard.csv', newline='') as csvfile:
+        scores = csv.reader(csvfile)
+
+        for row in scores:
+            all_scores.append((row[0], int(row[1])))
+
+        top = sorted(
+            all_scores, 
+            key=lambda score: score[1], 
+            reverse=True)
+    return top[:10]
+
+print(top_dix())
