@@ -12,55 +12,10 @@
 
 import tkinter as tk
 
-# Programme Menu 
-
-# Fenêtre des différents niveaux
-def create1():
-    easy=tk.Tk()
-    easy.geometry('800x400')
-    easy.mainloop()
-
-def create2():
-    intermediate=tk.Tk()
-    intermediate.geometry('600x400')
-    intermediate.mainloop()
-
-def create3():
-    difficult=tk.Tk()
-    difficult.geometry('400x400')
-    difficult.mainloop()
-
-# Fenêtre du menu
-root = tk.Tk()
-root.geometry('589x400')
-root.configure(bg='#88e75f')
-
-# Bouton clic
-btn = tk.Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
-btn1 = tk.Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
-btn2 = tk.Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
-
-
-text = tk.Label(root, text="Jeu Snake",  font=("brush script mt", 70),  bg = "#88e75f", fg = "#2f6d35")
-
-# Coordonnées des Boutons clic
-btn.place(x = 50, y = 300)
-btn1.place(x = 170, y = 300)
-btn2.place(x = 400, y = 300)
-text.place(x = 120, y = 100)
-root.mainloop()
-
-
-
-
 #######################################
 # Constantes (écrites en majuscule)
 
-LARGEUR = 500
-HAUTEUR = 500
 COTE = 20
-COLONE = LARGEUR // COTE
-LIGNE = HAUTEUR // COTE
 
 COLOR_QUADR = "black"
 COLOR_MUR = "black"
@@ -71,6 +26,11 @@ COLOR_SNAKE = "Green2"
 
 #######################################
 # Variables globales
+
+LARGEUR = 800
+HAUTEUR = 400
+COLONE = LARGEUR // COTE
+LIGNE = HAUTEUR // COTE
 
 """La variable globale tableau_snake de garder en mémoire quelle case est occupé par le serpent par la valeur 1"""
 tableau_snake = [[0] * COLONE for i in range(LIGNE)] 
@@ -90,6 +50,100 @@ direction = ["droite", +COTE, 0]
 pomme = 0
 
 ID_after = 0
+canvas = 0
+
+#######################################
+# Programme Menu 
+
+# Fenêtre des différents niveaux
+def create1():
+    global canvas
+    easy=tk.Tk()
+    easy.geometry('800x400')
+    easy.resizable(False, False)
+    # Appele de fonction pour initialiser de l'espace de jeu
+    reinitialise_variableG()
+    # Création des widgets
+    image_GO = tk.PhotoImage(file='gameover.png', master=easy)
+    canvas = tk.Canvas(easy, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas.grid()
+    # Appele de fonction pour jouer
+    position_depart()
+    racine = easy
+    move_snake(racine)
+    # Èvenement
+    easy.bind("<KeyPress-z>", move_haut)
+    easy.bind("<KeyPress-s>", move_bas)
+    easy.bind("<KeyPress-q>", move_gauche)
+    easy.bind("<KeyPress-d>", move_droite)
+    
+    easy.mainloop()
+
+def create2():
+    intermediate=tk.Tk()
+    intermediate.geometry('600x400')
+    intermediate.resizable(False, False)
+    # Appele de fonction pour initialiser de l'espace de jeu
+    reinitialise_variableG()
+    # Création des widgets
+    image_GO = tk.PhotoImage(file='gameover.png', master=intermediate)
+    canvas = tk.Canvas(intermediate, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas.grid()
+    # Appele de fonction pour jouer
+    position_depart()
+    racine = intermediate
+    move_snake(racine)
+    # Èvenement
+    intermediate.bind("<KeyPress-z>", move_haut)
+    intermediate.bind("<KeyPress-s>", move_bas)
+    intermediate.bind("<KeyPress-q>", move_gauche)
+    intermediate.bind("<KeyPress-d>", move_droite)
+
+    intermediate.mainloop()
+
+def create3():
+    difficult=tk.Tk()
+    difficult.geometry('400x400')
+    difficult.resizable(False, False)
+    # Appele de fonction pour initialiser de l'espace de jeu
+    reinitialise_variableG()
+    # Création des widgets
+    image_GO = tk.PhotoImage(file='gameover.png', master=difficult)
+    canvas = tk.Canvas(difficult, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas.grid()
+    # Appele de fonction pour jouer
+    position_depart()
+    racine = difficult
+    move_snake(racine)
+    # Èvenement
+    difficult.bind("<KeyPress-z>", move_haut)
+    difficult.bind("<KeyPress-s>", move_bas)
+    difficult.bind("<KeyPress-q>", move_gauche)
+    difficult.bind("<KeyPress-d>", move_droite)
+
+    difficult.mainloop()
+
+# Fenêtre du menu
+root = tk.Tk()
+root.geometry('589x400')
+root.configure(bg='#88e75f')
+root.resizable(False, False) # bloque la taille de la fenetre
+
+# Bouton clic
+btn = tk.Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
+btn1 = tk.Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
+btn2 = tk.Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
+
+text = tk.Label(root, text="Jeu Snake",  font=("brush script mt", 70),  bg = "#88e75f", fg = "#2f6d35")
+
+image_GO = tk.PhotoImage(file='gameover.png')
+
+# Coordonnées des Boutons clic
+btn.place(x = 50, y = 300)
+btn1.place(x = 170, y = 300)
+btn2.place(x = 400, y = 300)
+text.place(x = 120, y = 100)
+root.mainloop()
 
 #######################################
 # Fonctions
@@ -106,26 +160,16 @@ def quadrillage():
         x += COTE
 
 def ini_mur() :
-    """Créer des carré noir de dimention COTE pour créer le mur (fonction provisoir, a modifier)"""
-    global LIGNE, COLONE
-    x0, y0, x1, y1 = 0, 0, COTE, COTE
-    for i in range(LIGNE) :
-        for j in range(COLONE) :
-            if i == 0 or i == LIGNE-1 :
-                canvas.create_rectangle((x0, y0), (x1, y1), fill=COLOR_MUR, outline=COLOR_MUR_BORD)
-            elif j == 0 or j == COLONE-1 :
-                canvas.create_rectangle((x0, y0), (x1, y1), fill=COLOR_MUR, outline=COLOR_MUR_BORD)
-            y0 += COTE
-            y1 += COTE
-        y0, y1 = 0, COTE
-        x0 += COTE
-        x1 += COTE
+    """Créer des carré noir de dimention COTE pour créer le mur"""
+    pass
 
 def position_depart() :
     """Initialise les posistion de départ du serpent et de la pomme"""
     global COTE, LARGEUR, HAUTEUR, pomme, tete_snake, corp_snake, snake, tableau_snake
-    milieu = (LARGEUR//COTE)//2
-    pomme = canvas.create_oval((COTE*milieu, COTE*milieu), (COTE*(milieu+1), COTE*(milieu+1)), fill=COLOR_POMME, outline=COLOR_POMME)
+    # Position de départ de la pomme
+    pomme = canvas.create_oval( (LARGEUR-(4*COTE), HAUTEUR-(4*COTE)), (LARGEUR-(3*COTE), HAUTEUR-(3*COTE)), fill=COLOR_POMME, outline=COLOR_POMME)
+    # Position de départ du serpent
+    tableau_snake = [[0] * COLONE for i in range(LIGNE)] 
     tete_snake = canvas.create_oval((4*COTE, 2*COTE), (5*COTE, 3*COTE), fill=COLOR_TETE_SNAKE, outline=COLOR_TETE_SNAKE)
     snake.append(tete_snake)
     tableau_snake[2][4] = 1
@@ -144,7 +188,7 @@ def snake_grandit(x_queue, y_queue) :
     snake.append(corp_snake)
 
 
-def move_snake(event=0) :
+def move_snake(racine) :
     """Fonction qui deplace le serpent dans une direction (près choisie dans d'autres fonction : move_haut/bas/gauche/bas) en prennant la queue du serpent pour qu'elle devienner sa nouvelle tête"""
     global snake, direction, corp_snake, tableau_snake, COTE, pomme, ID_after
     corp_snake = snake[-1]
@@ -177,7 +221,7 @@ def move_snake(event=0) :
         # ===========================
         snake_grandit(x_queue, y_queue)
     # Rappel la fonction move_snake
-    ID_after = racine.after(300, move_snake, event)
+    ID_after = racine.after(300, move_snake, racine)
 
 def move_haut(event) :
     """Fonction qui premet choisir la direction haut qui est relié a la touche z du clavier"""
@@ -213,47 +257,22 @@ def move_droite(event) :
 
 def game_over(event=0) :
     """Fonction qui affiche une Game Over quand le joueur perd et réinitialiser toutes les variable globals"""
-    global tableau_snake, snake, tete_snake, corp_snake, direction, pomme, ID_after
-    # Affiche le game over
-    canvas.create_image(500/2, 500/2, anchor='center', image=image_GO)
-    # Effacer le serpent et la pomme
+    global LARGEUR, HAUTEUR, image_GO
+    canvas.create_image(LARGEUR/2, HAUTEUR/2, anchor='center', image=image_GO)
     canvas.delete(pomme)
     for i in snake :
         canvas.delete(i)
-    # Réinitialiser les variable global, A FAIRE : ajout des variable des future fonctions pour tout réinitialiser
-    tableau_snake = [[0] * COLONE for i in range(LIGNE)]
-    snake = []
-    tete_snake = 0
-    corp_snake = 0
-    direction = ["droite", +COTE, 0]
-    pomme = 0
-    ID_after = 0
 
-#######################################
-# Programme principale
-
-racine = tk.Tk()
-racine.title("Snake")
-
-# Création des widgets
-
-canvas = tk.Canvas(racine, width=LARGEUR, height=HAUTEUR, bg="green")
-image_GO = tk.PhotoImage(file='gameover.png')
-
-quadrillage()
-ini_mur()
-position_depart()
-move_snake()
-
-# Placement des widgets
-
-canvas.grid()
-
-# Événements
-
-racine.bind("<KeyPress-z>", move_haut)
-racine.bind("<KeyPress-s>", move_bas)
-racine.bind("<KeyPress-q>", move_gauche)
-racine.bind("<KeyPress-d>", move_droite)
-
-racine.mainloop()
+def reinitialise_variableG() :
+    """Réinitialiser les variable global"""
+    global tableau_snake, snake, tete_snake, corp_snake, direction, pomme, ID_after, canvas
+    if canvas != 0 : 
+    # A FAIRE : ajout des variable des future fonctions pour tout réinitialiser
+        tableau_snake = []
+        snake = []
+        tete_snake = 0
+        corp_snake = 0
+        direction = ["droite", +COTE, 0]
+        pomme = 0
+        ID_after = 0
+        canvas = 0
