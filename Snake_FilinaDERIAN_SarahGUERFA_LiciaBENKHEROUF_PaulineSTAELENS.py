@@ -53,101 +53,6 @@ ID_after = 0
 canvas = 0
 
 #######################################
-# Programme Menu 
-
-# Fenêtre des différents niveaux
-def create1():
-    global canvas
-    easy=tk.Tk()
-    easy.geometry('800x400')
-    easy.resizable(False, False)
-    # Appele de fonction pour initialiser de l'espace de jeu
-    reinitialise_variableG()
-    # Création des widgets
-    image_GO = tk.PhotoImage(file='gameover.png', master=easy)
-    canvas = tk.Canvas(easy, width=LARGEUR, height=HAUTEUR, bg="green")
-    canvas.grid()
-    # Appele de fonction pour jouer
-    position_depart()
-    racine = easy
-    move_snake(racine)
-    # Èvenement
-    easy.bind("<KeyPress-z>", move_haut)
-    easy.bind("<KeyPress-s>", move_bas)
-    easy.bind("<KeyPress-q>", move_gauche)
-    easy.bind("<KeyPress-d>", move_droite)
-    
-    easy.mainloop()
-
-def create2():
-    global canvas
-    intermediate=tk.Tk()
-    intermediate.geometry('600x400')
-    intermediate.resizable(False, False)
-    # Appele de fonction pour initialiser de l'espace de jeu
-    reinitialise_variableG()
-    # Création des widgets
-    image_GO = tk.PhotoImage(file='gameover.png', master=intermediate)
-    canvas = tk.Canvas(intermediate, width=LARGEUR, height=HAUTEUR, bg="green")
-    canvas.grid()
-    # Appele de fonction pour jouer
-    position_depart()
-    racine = intermediate
-    move_snake(racine)
-    # Èvenement
-    intermediate.bind("<KeyPress-z>", move_haut)
-    intermediate.bind("<KeyPress-s>", move_bas)
-    intermediate.bind("<KeyPress-q>", move_gauche)
-    intermediate.bind("<KeyPress-d>", move_droite)
-
-    intermediate.mainloop()
-
-def create3():
-    global canvas
-    difficult=tk.Tk()
-    difficult.geometry('400x400')
-    difficult.resizable(False, False)
-    # Appele de fonction pour initialiser de l'espace de jeu
-    reinitialise_variableG()
-    # Création des widgets
-    image_GO = tk.PhotoImage(file='gameover.png', master=difficult)
-    canvas = tk.Canvas(difficult, width=LARGEUR, height=HAUTEUR, bg="green")
-    canvas.grid()
-    # Appele de fonction pour jouer
-    position_depart()
-    racine = difficult
-    move_snake(racine)
-    # Èvenement
-    difficult.bind("<KeyPress-z>", move_haut)
-    difficult.bind("<KeyPress-s>", move_bas)
-    difficult.bind("<KeyPress-q>", move_gauche)
-    difficult.bind("<KeyPress-d>", move_droite)
-
-    difficult.mainloop()
-
-# Fenêtre du menu
-root = tk.Tk()
-root.geometry('589x400')
-root.configure(bg='#88e75f')
-root.resizable(False, False) # bloque la taille de la fenetre
-
-# Bouton clic
-btn = tk.Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
-btn1 = tk.Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
-btn2 = tk.Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
-
-text = tk.Label(root, text="Jeu Snake",  font=("brush script mt", 70),  bg = "#88e75f", fg = "#2f6d35")
-
-image_GO = tk.PhotoImage(file='gameover.png')
-
-# Coordonnées des Boutons clic
-btn.place(x = 50, y = 300)
-btn1.place(x = 170, y = 300)
-btn2.place(x = 400, y = 300)
-text.place(x = 120, y = 100)
-root.mainloop()
-
-#######################################
 # Fonctions
 
 def quadrillage():
@@ -279,7 +184,7 @@ def reinitialise_variableG() :
         ID_after = 0
         canvas = 0
 
-         # Score
+        # Score
 def AffichageScore():
     display.setColor(COLOR_SCORE)
     display.print(2, 2, game['score'])
@@ -311,3 +216,98 @@ def top_dix():
     return top[:10]
 
 print(top_dix())
+
+#######################################
+# Programme Menu 
+
+# Fenêtre des différents niveaux
+def create1():
+    global canvas
+    easy=tk.Tk()
+    easy.geometry('800x400')
+    easy.resizable(False, False)
+    # Appele de fonction pour initialiser de l'espace de jeu
+    reinitialise_variableG()
+    # Création des widgets
+    image_GO = tk.PhotoImage(file='gameover.png', master=easy)
+    canvas = tk.Canvas(easy, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas.grid()
+    # Appele de fonction pour jouer
+    position_depart()
+    racine = easy
+    move_snake(racine)
+    # Èvenement
+    easy.bind("<KeyPress-z>", move_haut)
+    easy.bind("<KeyPress-s>", move_bas)
+    easy.bind("<KeyPress-q>", move_gauche)
+    easy.bind("<KeyPress-d>", move_droite)
+    
+    easy.mainloop()
+
+def create2():
+    global canvas
+    intermediate=tk.Tk()
+    intermediate.geometry('600x400')
+    intermediate.resizable(False, False)
+    # Appele de fonction pour initialiser de l'espace de jeu
+    reinitialise_variableG()
+    # Création des widgets
+    image_GO = tk.PhotoImage(file='gameover.png', master=intermediate)
+    canvas = tk.Canvas(intermediate, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas.grid()
+    # Appele de fonction pour jouer
+    position_depart()
+    racine = intermediate
+    move_snake(racine)
+    # Èvenement
+    intermediate.bind("<KeyPress-z>", move_haut)
+    intermediate.bind("<KeyPress-s>", move_bas)
+    intermediate.bind("<KeyPress-q>", move_gauche)
+    intermediate.bind("<KeyPress-d>", move_droite)
+
+    intermediate.mainloop()
+
+def create3():
+    global canvas
+    difficult=tk.Tk()
+    difficult.geometry('400x400')
+    difficult.resizable(False, False)
+    # Appele de fonction pour initialiser de l'espace de jeu
+    reinitialise_variableG()
+    # Création des widgets
+    image_GO = tk.PhotoImage(file='gameover.png', master=difficult)
+    canvas = tk.Canvas(difficult, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas.grid()
+    # Appele de fonction pour jouer
+    position_depart()
+    racine = difficult
+    move_snake(racine)
+    # Èvenement
+    difficult.bind("<KeyPress-z>", move_haut)
+    difficult.bind("<KeyPress-s>", move_bas)
+    difficult.bind("<KeyPress-q>", move_gauche)
+    difficult.bind("<KeyPress-d>", move_droite)
+
+    difficult.mainloop()
+
+# Fenêtre du menu
+root = tk.Tk()
+root.geometry('589x400')
+root.configure(bg='#88e75f')
+root.resizable(False, False) # bloque la taille de la fenetre
+
+# Bouton clic
+btn = tk.Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
+btn1 = tk.Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
+btn2 = tk.Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
+
+text = tk.Label(root, text="Jeu Snake",  font=("brush script mt", 70),  bg = "#88e75f", fg = "#2f6d35")
+
+image_GO = tk.PhotoImage(file='gameover.png')
+
+# Coordonnées des Boutons clic
+btn.place(x = 50, y = 300)
+btn1.place(x = 170, y = 300)
+btn2.place(x = 400, y = 300)
+text.place(x = 120, y = 100)
+root.mainloop()
