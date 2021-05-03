@@ -222,7 +222,7 @@ print(top_dix())
 
 # Fenêtre des différents niveaux
 def create1():
-    global canvas
+    global canvas, image_GO
     easy=tk.Tk()
     easy.geometry('800x400')
     easy.resizable(False, False)
@@ -245,7 +245,7 @@ def create1():
     easy.mainloop()
 
 def create2():
-    global canvas
+    global canvas, image_GO
     intermediate=tk.Tk()
     intermediate.geometry('600x400')
     intermediate.resizable(False, False)
@@ -268,7 +268,7 @@ def create2():
     intermediate.mainloop()
 
 def create3():
-    global canvas
+    global canvas, image_GO
     difficult=tk.Tk()
     difficult.geometry('400x400')
     difficult.resizable(False, False)
