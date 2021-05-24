@@ -61,7 +61,7 @@ On a rencontré des problèmes sur le placement des boutons du menu, ont suppos�
 
 Le visuel que vous devait avoir est le suivant : 
  
-![menu du jeu](https://user-images.githubusercontent.com/71285109/119347809-514f3e80-bc9c-11eb-93d4-8b430cf291c3.png)
+![menu du jeu](https://user-images.githubusercontent.com/71285109/119358057-86618e00-bca8-11eb-996f-6811ed6bfddc.png)
 
 Le visuel qu'il est possible d'avoir est le suivant :
 
