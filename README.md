@@ -42,10 +42,10 @@ Avant de lancer une partie, le joueur a accès à un menu.
 
 Le joueur est invité à entrer un pseudo.
 
-Il peut choisir entre 3 niveaux de difficulté différente :
-- le niveau "Facile", c'est un plateau grand avec 4 murs sur les côtes et la vitesse du serpent est lente ;
-- le niveau "Intermédiaire", c'est un plateau moyen avec 4 murs sur les côtes, plus 2 murs au milieu et la vitesse du serpent est moyenne ;
-- le niveau "Difficile", c'est un plateau petit avec 4 murs sur les côtes, plus 4 murs au milieu et la vitesse du serpent est rapide.
+Il peut choisir entre 3 niveaux de difficulté différents :
+- le niveau "Facile", un plateau grand avec 4 murs sur les côtés et avec une vitesse du serpent lente ;
+- le niveau "Intermédiaire", un plateau moyen avec 4 murs sur les côtés, 2 murs au milieu et avec une vitesse du serpent moyenne ;
+- le niveau "Difficile", un plateau petit avec 4 murs sur les côtés, 4 murs au milieu et avec une vitesse du serpent rapide.
 
 Le plateau apparaît dans une nouvelle fenêtre et le serpent commence à avancer.
 
