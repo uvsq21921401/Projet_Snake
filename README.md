@@ -57,7 +57,7 @@ Le joueur peut consulter les 10 meilleurs scores dans le menu.
 
 ## Remarque
 
-On a rencontré des problèmes sur le placement des boutons du menu, ont supposé que selon IOS les boutons sont mal placés dans la fenêtre du menu du jeu. Les boutons se chevauchent et peut gêner le lancement du niveau intermédiaire.
+On a rencontré des problèmes sur le placement des boutons du menu, on suppose que selon le système d'exploitation de votre ordinateur (windows, Linux, IOS...) les boutons sont mal placés dans la fenêtre du menu du jeu. Les boutons se chevauchent et peuvent gêner le lancement du niveau intermédiaire.
 
 Le visuel que vous devait avoir est le suivant : 
  
