@@ -193,20 +193,6 @@ def game_over(event=0) :
     for i in snake :
         canvas.delete(i)
 
-def reinitialise_variableG() :
-    """Réinitialiser les variable global"""
-    global tableau_snake, snake, tete_snake, corp_snake, direction, pomme, ID_after, canvas
-    if canvas != 0 : 
-    # A FAIRE : ajout des variable des future fonctions pour tout réinitialiser
-        tableau_snake = []
-        snake = []
-        tete_snake = 0
-        corp_snake = 0
-        direction = ["droite", +COTE, 0]
-        pomme = 0
-        ID_after = 0
-        canvas = 0
-
        # Score
 def AffichageScore():
     display.setColor(COLOR_SCORE)
