@@ -35,7 +35,7 @@ Il peut choisir entre 3 niveaux de difficulté différente :
 
 Le plateau appareil dans une nouvelle fenêtre et le serpent commence à avancer.
 
-Le score est affiché pendant la partie et auguement de 10 points pour chaque pomme que le serpent mange.
+Le score est affiché pendant la partie et augmente de 10 points pour chaque pomme que le serpent mange.
 
 Pour recommencer une partie aprés un "Game Over", il suffit de fermer la fenêtre du plateau de jeu et de rechoisir un niveau.
 
