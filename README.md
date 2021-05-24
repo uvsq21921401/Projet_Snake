@@ -57,9 +57,9 @@ Le joueur peut consulter les 10 meilleurs scores dans le menu.
 
 ## Remarque
 
-On a rencontré des problèmes sur le placement des boutons du menu, on suppose que selon le système d'exploitation de votre ordinateur (windows, Linux, IOS...) les boutons peuvent être mal placés dans la fenêtre du menu du jeu. Les boutons se chevauchent et peuvent gêner le lancement du niveau intermédiaire.
+On a rencontré des problèmes sur le placement des boutons du menu, on suppose que selon le système d'exploitation de votre ordinateur (windows, Linux, IOS...) les boutons peuvent être mal placés dans la fenêtre du menu du jeu. Les boutons se chevauchent et peuvent gêner le lancement du niveau intermédiaire par exemple .
 
-Le visuel que vous devait avoir est le suivant : 
+Le visuel que vous devez avoir est le suivant : 
  
 ![menu du jeu](https://user-images.githubusercontent.com/71285109/119358057-86618e00-bca8-11eb-996f-6811ed6bfddc.png)
 
