@@ -193,38 +193,33 @@ def game_over(event=0) :
     for i in snake :
         canvas.delete(i)
 
-       # Score
-def AffichageScore():
-    display.setColor(COLOR_SCORE)
-    display.print(2, 2, game['score'])
+def score_joueur() :
+    global score, pseudo
+    """Fonction qui engistre les information du ficier Les 10 meilleurs scores dans un liste et écris le ficher avec le score du joueur si il fait partie des 10 premier"""
+    # lit et stocke les infos du fichier
+    liste_score = [[""] * 2 for i in range(10)]
+    fichier_S = open("Les 10 meilleurs scores.txt", "r")
+    fichier_S.readline()
+    for i in range(len(liste_score)) :
+        line = fichier_S.readline()
+        split = line.split(" ")
+        liste_score[i][0], liste_score[i][1] = split[1], int(split[2]) 
+    fichier_S.close()
+    # réecrit les infos du fichier selon la position du score du joueur
+    ins = trier_score(liste_score, score)
+    liste_score.insert(ins, [pseudo, score])
+    fichier_S = open("Les 10 meilleurs scores.txt", "w")
+    fichier_S.write("Les 10 meilleurs scores" + "\n")
+    for i in range(10) :
+        fichier_S.write(str(i+1) + " " + liste_score[i][0] + " " + str(liste_score[i][1]) + " " + "\n")
+    fichier_S.close()
 
-def UpdateScore(self):
-    self.score+=1
-    self.scoreDisplay['text']="Score : {}".format(self.score)
-    return
-
-def Scoreboard():
-    user = str(input("Entrer votre nom pour enregistrer votre score: "))
-    with open("scoreboard.csv", "a") as output:
-        output.write("\n"+user+","+str(score)+" pts")
-
-def top_dix():
-    top = []
-    all_scores = []
-
-    with open('scoreboard.csv', newline='') as csvfile:
-        scores = csv.reader(csvfile)
-
-        for row in scores:
-            all_scores.append((row[0], int(row[1])))
-
-        top = sorted(
-            all_scores, 
-            key=lambda score: score[1], 
-            reverse=True)
-    return top[:10]
-
-print(top_dix())
+def trier_score (liste_score, score) :
+    """Fonction qui compare le score du joueur par rapport aux scores du fichier Les 10 meilleurs scores pour le classe dans les 10 premiere place et retoune la possition pour la fonction score_joueur"""
+    for i in range(len(liste_score)) :
+        if liste_score[i][1] <= score :
+            return i
+    return 10
 
 def save_pseudo (variable) :
     """Fonction qui enregistre le pseudo du joueur"""
