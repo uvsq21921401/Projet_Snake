@@ -28,10 +28,10 @@ COLOR_SNAKE = "Green2"
 #######################################
 # Variables globales
 
-LARGEUR = 0
-HAUTEUR = 0
-COLONE = 0
-LIGNE = 0
+largeur = 0
+hauteur = 0
+colone = 0
+ligne = 0
 
 tableau_mur = []
 tableau_snake = []
@@ -58,14 +58,14 @@ nom_fichier = 0
 
 def read_fichier(nom_fichier) :
     """Lit un fichier txt pour les attribuer a une variable global"""
-    global LARGEUR, HAUTEUR, COLONE, LIGNE, vitesse, tableau_mur, fichier
+    global largeur, hauteur, colone, ligne, vitesse, tableau_mur, fichier
     fichier = open(nom_fichier, "r")
-    LARGEUR = int(fichier.readline())
-    HAUTEUR = int(fichier.readline())
-    COLONE = LARGEUR // COTE
-    LIGNE = HAUTEUR // COTE
+    largeur = int(fichier.readline())
+    hauteur = int(fichier.readline())
+    colone = largeur // COTE
+    ligne = hauteur // COTE
     vitesse = int(fichier.readline())
-    for i in range(HAUTEUR//COTE) :
+    for i in range(hauteur//COTE) :
         tableau_mur.append([])
         line = fichier.readline()
         for j in line :
@@ -75,18 +75,19 @@ def read_fichier(nom_fichier) :
 
 def quadrillage():
     """Dessine un quadrillage formé de carrés de côté COTE (fonction pour nous aider a bien visualise le deplacement de la pomme et du serpent)"""
+    global hauteur, largeur, COTE, COLOR_QUADR
     y = 0
-    while y <= HAUTEUR:
-        canvas.create_line((0, y), (LARGEUR, y), fill=COLOR_QUADR)
+    while y <= hauteur:
+        canvas.create_line((0, y), (largeur, y), fill=COLOR_QUADR)
         y += COTE
     x = 0
-    while x <= LARGEUR:
-        canvas.create_line((x, 0), (x, HAUTEUR), fill=COLOR_QUADR)
+    while x <= largeur:
+        canvas.create_line((x, 0), (x, hauteur), fill=COLOR_QUADR)
         x += COTE
 
 def ini_mur() :
     """Créer des carré noir de dimention COTE pour créer les murs"""
-    global tableau_mur, COTE
+    global tableau_mur, COTE, COLOR_MUR, COLOR_MUR_BORD
     for i in range(len(tableau_mur)) :
         for j in range(len(tableau_mur[i])) :
             if tableau_mur[i][j] == 1 :
@@ -94,11 +95,11 @@ def ini_mur() :
 
 def position_depart() :
     """Initialise les posistion de départ du serpent et de la pomme"""
-    global COTE, LARGEUR, HAUTEUR, pomme, tete_snake, corp_snake, snake, tableau_snake
+    global COTE, largeur, hauteur, pomme, tete_snake, corp_snake, snake, tableau_snake, COLOR_POMME, COLOR_TETE_SNAKE, COLOR_SNAKE
     # Position de départ de la pomme
-    pomme = canvas.create_oval( (LARGEUR-(4*COTE), HAUTEUR-(4*COTE)), (LARGEUR-(3*COTE), HAUTEUR-(3*COTE)), fill=COLOR_POMME, outline=COLOR_POMME)
+    pomme = canvas.create_oval( (largeur-(4*COTE), hauteur-(4*COTE)), (largeur-(3*COTE), hauteur-(3*COTE)), fill=COLOR_POMME, outline=COLOR_POMME)
     # Position de départ du serpent
-    tableau_snake = [[0] * COLONE for i in range(LIGNE)] 
+    tableau_snake = [[0] * colone for i in range(ligne)] 
     tete_snake = canvas.create_oval((4*COTE, 2*COTE), (5*COTE, 3*COTE), fill=COLOR_TETE_SNAKE, outline=COLOR_TETE_SNAKE)
     snake.append(tete_snake)
     tableau_snake[2][4] = 1
@@ -109,16 +110,30 @@ def position_depart() :
     snake.append(corp_snake)
     tableau_snake[2][2] = 1
 
+def move_pomme() :
+    """Déplace la pomme quand elle se fait manger par le serpent"""
+    global pomme, colone, ligne, COTE, tableau_mur, tableau_snake, score, label_score
+    x = random.randint(0, ligne - 1)
+    y = random.randint(0, colone - 1)
+    coord = x * len(tableau_mur[0]) + y
+    while tableau_mur[x][y] == 1 or tableau_snake[x][y] == 1 :
+        coord = (coord + 1) % (colone*ligne)
+        x = coord // len(tableau_mur[0])
+        y = coord % len(tableau_mur[0])
+    canvas.coords(pomme, y*COTE, x*COTE, (y+1)*COTE, (x+1)*COTE)
+    score += 10
+    label_score.config(text="Score: " + str(score))
+
 def snake_grandit(x_queue, y_queue) :
     """Fonction qui ajout un rond au bout du serpent pour le faire grandir"""
-    global snake, tableau_snake, corp_snake
+    global snake, tableau_snake, corp_snake, COTE, COLOR_SNAKE
     tableau_snake[y_queue][x_queue] = 1
     corp_snake = canvas.create_oval((x_queue*COTE, y_queue*COTE), ((x_queue+1)*COTE, (y_queue+1)*COTE), fill=COLOR_SNAKE, outline=COLOR_SNAKE)
     snake.append(corp_snake)
 
 def move_snake(racine) :
     """Fonction qui deplace le serpent dans une direction (près choisie dans d'autres fonction : move_haut/bas/gauche/bas) en prennant la queue du serpent pour qu'elle devienner sa nouvelle tête"""
-    global snake, direction, corp_snake, tete_snake, tableau_snake, COTE, pomme, ID_after, vitesse, tableau_mur
+    global snake, direction, corp_snake, tete_snake, tableau_snake, COTE, pomme, ID_after, vitesse, tableau_mur, COLOR_TETE_SNAKE, COLOR_SNAKE, largeur, hauteur
     corp_snake = snake[-1]
     tete_snake = snake[0]
     # Récuper les coordonnée de la pomme
@@ -129,7 +144,7 @@ def move_snake(racine) :
     y_queue = int(canvas.coords(corp_snake)[1] // COTE)
     tableau_snake[y_queue][x_queue] = 0
     # Gére deplacement du serpent sur le canvas 
-    canvas.coords(corp_snake, (canvas.coords(tete_snake)[0] + direction[1]) % LARGEUR, (canvas.coords(tete_snake)[1] + direction[2]) % HAUTEUR, (canvas.coords(tete_snake)[0] + direction[1] + 19) % LARGEUR, (canvas.coords(tete_snake)[1] + direction[2] + 19) % HAUTEUR)
+    canvas.coords(corp_snake, (canvas.coords(tete_snake)[0] + direction[1]) % largeur, (canvas.coords(tete_snake)[1] + direction[2]) % hauteur, (canvas.coords(tete_snake)[0] + direction[1] + 19) % largeur, (canvas.coords(tete_snake)[1] + direction[2] + 19) % hauteur)
     canvas.itemconfigure(snake[-1], fill=COLOR_TETE_SNAKE, outline=COLOR_TETE_SNAKE)
     canvas.itemconfigure(snake[0], fill=COLOR_SNAKE, outline=COLOR_SNAKE)
     snake.insert(0, snake[-1])
@@ -143,10 +158,7 @@ def move_snake(racine) :
     tableau_snake[y_tete][x_tete] = 1
     # Gestion entre le pomme et le serpent
     if x_tete == x_pomme and y_tete == y_pomme :
-        # ===========================
-        # A FAIRE : Déplacer la pomme
-        # exemple : deplacer_pomme()
-        # ===========================
+        move_pomme()
         snake_grandit(x_queue, y_queue)
     # Rappel la fonction move_snake
     ID_after = racine.after(vitesse, move_snake, racine)
@@ -184,15 +196,17 @@ def move_droite(event) :
         direction[2] = 0
 
 def game_over(event=0) :
-    """Fonction qui affiche une Game Over quand le joueur perd et réinitialiser toutes les variable globals"""
-    global LARGEUR, HAUTEUR, image_GO
-    canvas.create_image(LARGEUR/2, HAUTEUR/2, anchor='center', image=image_GO)
+    """Fonction qui affiche une Game Over quand le joueur perd"""
+    global largeur, hauteur, image_GO, pomme, snake
+    canvas.create_image(largeur/2, hauteur/2, anchor='center', image=image_GO)
     canvas.delete(pomme)
     for i in snake :
         canvas.delete(i)
+    score_joueur()
 
 def score_joueur() :
     global score, pseudo
+    print(pseudo)
     """Fonction qui engistre les information du ficier Les 10 meilleurs scores dans un liste et écris le ficher avec le score du joueur si il fait partie des 10 premier"""
     # lit et stocke les infos du fichier
     liste_score = [[""] * 2 for i in range(10)]
@@ -222,19 +236,16 @@ def trier_score (liste_score, score) :
 def save_pseudo (variable) :
     """Fonction qui enregistre le pseudo du joueur"""
     global pseudo
-    print(variable, " ", pseudo)
     pseudo = variable.get()
-    print(pseudo)
 
 def reinitialise_variableG() :
     """Réinitialiser les variable global"""
-    global LARGEUR, HAUTEUR, COLONE, LIGNE, tableau_mur, tableau_snake, snake, tete_snake, corp_snake, direction, vitesse, pomme, score, ID_after, canvas, label_score, fichier, nom_fichier
+    global largeur, hauteur, colone, ligne, tableau_mur, tableau_snake, snake, tete_snake, corp_snake, direction, vitesse, pomme, score, ID_after, canvas, label_score, fichier, nom_fichier, COTE
     if canvas != 0 : 
-    # A FAIRE : ajout des variable des future fonctions pour tout réinitialiser
-        LARGEUR = 0
-        HAUTEUR = 0
-        COLONE = 0
-        LIGNE = 0
+        largeur = 0
+        hauteur = 0
+        colone = 0
+        ligne = 0
         tableau_mur = []
         tableau_snake = []
         snake = []
@@ -256,7 +267,7 @@ def reinitialise_variableG() :
 # Fenêtre des différents niveaux
 def create1():
     """Fonction qui créée une nouvelle fenetre pour le niveau facile et appele les fonctions pour le bon fonctionnement du jeu"""
-    global canvas, LARGEUR, HAUTEUR, nom_fichier, image_GO, score, label_score
+    global canvas, largeur, hauteur, nom_fichier, image_GO, score, label_score
     easy=tk.Tk()
     easy.title("Niveau Facile")
     easy.geometry('805x430')
@@ -264,17 +275,18 @@ def create1():
     easy.resizable(False, False)
     # Appele de fonction pour initialiser de l'espace de jeu
     reinitialise_variableG()
+    save_pseudo(variable)
     nom_fichier = "Snake_easy.txt"
     read_fichier(nom_fichier)
     # Création des widgets
-    canvas = tk.Canvas(easy, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas = tk.Canvas(easy, width=largeur, height=hauteur, bg="green")
     label_score = tk.Label(easy, text="Score: " + str(score), bg = "#88e75f")
     image_GO = tk.PhotoImage(file='gameover.png', master=easy)
     # Placement des widgets
     canvas.grid(row=0)
     label_score.grid(row=1)
     # Appele de fonction pour jouer
-    quadrillage()
+    ##quadrillage()
     ini_mur()
     position_depart()
     racine = easy
@@ -289,25 +301,26 @@ def create1():
 
 def create2():
     """Fonction qui créée une nouvelle fenetre pour le niveau intermédiaire et appele les fonctions pour le bon fonctionnement du jeu"""
-    global canvas, LARGEUR, HAUTEUR, nom_fichier, image_GO, score, label_score
+    global canvas, largeur, hauteur, nom_fichier, image_GO, score, label_score
     intermediate=tk.Tk()
     intermediate.title("Niveau Intermédiaire")
-    intermediate.geometry('600x400')
+    intermediate.geometry('605x430')
     intermediate.configure(bg='#88e75f')
     intermediate.resizable(False, False)
     # Appele de fonction pour initialiser de l'espace de jeu
     reinitialise_variableG()
+    save_pseudo(variable)
     nom_fichier = "Snake_intermédiate.txt"
     read_fichier(nom_fichier)
     # Création des widgets
-    canvas = tk.Canvas(intermediate, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas = tk.Canvas(intermediate, width=largeur, height=hauteur, bg="green")
     label_score = tk.Label(intermediate, text="Score: " + str(score), bg = "#88e75f")
     image_GO = tk.PhotoImage(file='gameover.png', master=intermediate)
     # Placement des widgets
     canvas.grid(row=0)
     label_score.grid(row=1)
     # Appele de fonction pour jouer
-    quadrillage()
+    ##quadrillage()
     ini_mur()
     position_depart()
     racine = intermediate
@@ -322,7 +335,7 @@ def create2():
 
 def create3():
     """Fonction qui créée une nouvelle fenetre pour le niveau intermédiaire et appele les fonctions pour le bon fonctionnement du jeu"""
-    global canvas, LARGEUR, HAUTEUR, nom_fichier, image_GO, score, label_score
+    global canvas, largeur, hauteur, nom_fichier, image_GO, score, label_score
     difficult=tk.Tk()
     difficult.title("Niveau Difficile")
     difficult.geometry('405x430')
@@ -330,17 +343,18 @@ def create3():
     difficult.resizable(False, False)
     # Appele de fonction pour initialiser de l'espace de jeu
     reinitialise_variableG()
+    save_pseudo(variable)
     nom_fichier = "Snake_difficult.txt"
     read_fichier(nom_fichier)
     # Création des widgets
-    canvas = tk.Canvas(difficult, width=LARGEUR, height=HAUTEUR, bg="green")
+    canvas = tk.Canvas(difficult, width=largeur, height=hauteur, bg="green")
     label_score = tk.Label(difficult, text="Score: " + str(score), bg = "#88e75f")
     image_GO = tk.PhotoImage(file='gameover.png', master=difficult)
     # Placement des widgets
     canvas.grid(row=0)
     label_score.grid(row=1)
     # Appele de fonction pour jouer
-    quadrillage()
+    ##quadrillage()
     ini_mur()
     position_depart()
     racine = difficult
@@ -411,11 +425,10 @@ image_menu = tk.PhotoImage(file='snake.png')
 image_GO = tk.PhotoImage(file='gameover.png')
 menu.create_image(640//2, 300//2, anchor='center', image=image_menu)
 
-label_menu = tk.Label(root, text="Entrez votre Pseudo, appuyez sur validez et choisissez le niveau !", bg = "#88e75f")
+label_menu = tk.Label(root, text="Entrez votre Pseudo et choisissez le niveau !", bg = "#88e75f")
 variable = tk.StringVar()
 entre = tk.Entry(root, textvariable=variable)
 
-btn_V = tk.Button(root, text="Validez", command = lambda : save_pseudo(variable),  font=("Courrier", 15), bg ="#2f6d35", fg = "#f88f7c")
 btn = tk.Button(root, text="Facile", command = create1,  font=("Courrier", 28), bg ="#2f6d35", fg = "#f88f7c")
 btn1 = tk.Button(root, text="Intermédiaire", command = create2,  font=("Courrier", 28), bg = "#2f6d35", fg = "#f88f7c")
 btn2 = tk.Button(root, text="Difficile", command = create3,  font=("Courrier", 28),bg = "#2f6d35", fg = "#f88f7c")
@@ -424,9 +437,8 @@ btn3 = tk.Button(root, text="Meilleurs Scores", command = create4,  font=("Courr
 # Placement des widgets
 
 menu.place(x = 0, y = 0)
-label_menu.place(x = 100, y = 290)
-entre.place(x = 150, y = 315)
-btn_V.place(x = 350, y = 315)
+label_menu.place(x = 150, y = 290)
+entre.place(x = 180, y = 315)
 btn.place(x = 80, y = 350)
 btn1.place(x = 195, y = 350)
 btn2.place(x = 400, y = 350)
