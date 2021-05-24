@@ -33,7 +33,7 @@ Il peut choisir entre 3 niveaux de difficulté différente :
 - le niveau "Intermédiaire", c'est un plateau moyen avec 4 murs sur les côtes, plus 2 murs au milieu et la vitesse du serpent est moyenne ;
 - le niveau "Difficile", c'est un plateau petit avec 4 murs sur les côtes, plus 4 murs au milieu et la vitesse du serpent est rapide.
 
-Le plateau appareil dans une nouvelle fenêtre et le serpent commence à avancer.
+Le plateau apparaît dans une nouvelle fenêtre et le serpent commence à avancer.
 
 Le score est affiché pendant la partie et augmente de 10 points pour chaque pomme que le serpent mange.
 
