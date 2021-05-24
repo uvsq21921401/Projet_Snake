@@ -64,5 +64,6 @@ Le visuel que vous devait avoir est le suivant :
 ![menu du jeu](https://user-images.githubusercontent.com/71285109/119358057-86618e00-bca8-11eb-996f-6811ed6bfddc.png)
 
 Le visuel qu'il est possible d'avoir est le suivant :
+(c'est un exemple)
 
 ![menu du jeu avec les boutons qui se chevauchent](https://user-images.githubusercontent.com/71285109/119348250-e5210a80-bc9c-11eb-8a8f-e85f5b36c2af.png)
