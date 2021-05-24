@@ -12,7 +12,6 @@
 
 import tkinter as tk
 import random
-import csv
 
 #######################################
 # Constantes
@@ -25,7 +24,6 @@ COLOR_MUR_BORD = "green"
 COLOR_POMME = "red"
 COLOR_TETE_SNAKE = "Cyan3"
 COLOR_SNAKE = "Green2"
-COLOR_SCORE = 0xffff
 
 #######################################
 # Variables globales
